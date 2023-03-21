@@ -43,6 +43,8 @@ router.post("/signup", async (req, res) => {
       passwordHash: hashedPassword,
     });
 
+    delete result._doc.passwordHash;
+
     // Responder o usuário recém-criado no banco para o cliente (solicitante). O status 201 significa Created
     return res.status(201).json(result);
   } catch (err) {
