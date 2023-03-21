@@ -15,7 +15,7 @@ module.exports = async (req, res, next) => {
       return res.status(400).json({ msg: "User does not exist." });
     }
 
-    req.currentUser = user;
+    req.currentUser = user; // consolida todos os dados do usuário vindo do DB, menos a senha!
     return next();
   } catch (err) {
     console.error(err);

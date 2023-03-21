@@ -14,11 +14,8 @@ app.use(cors());
 const userRouter = require("./routes/user.routes");
 app.use("/user", userRouter);
 
-/*
 const bookRouter = require("./routes/book.routes");
 app.use("/book", bookRouter);
-*/
-
 
 app.listen(Number(process.env.PORT), () =>
   console.log(`Server up and running at port ${process.env.PORT}`)
