@@ -12,7 +12,8 @@ const attachCurrentUser = require("../middlewares/attachCurrentUser");
 
 const bookRouter = express.Router();
 
-bookRouter.post("/", isAuthenticated, attachCurrentUser, async (req, res) => {
+// usuário logado cria novo livro.
+bookRouter.post("/book", isAuthenticated, attachCurrentUser, async (req, res) => {
   try {
     const newBook = await BookModel.create({
       ...req.body,
@@ -31,6 +32,20 @@ bookRouter.post("/", isAuthenticated, attachCurrentUser, async (req, res) => {
     return res.status(500).json(err);
   }
 });
+
+// todos os usuários podem ver todos os livros.
+bookRouter.get("/book", async (req, res) => {
+    try {
+      const books = await BookModel.find({}, { body: 0 }); // como deixar somente title e author?
+  
+      return res.status(200).json(books);
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json(err);
+    }
+  });
+
+
 
 
 
