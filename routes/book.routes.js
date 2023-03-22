@@ -65,6 +65,25 @@ bookRouter.get("/book/:id", async (req, res) => {
   }
 });
 
+bookRouter.put("/:bookId", isAuthenticated, attachCurrentUser, async (req, res) => {
+    try {
+      if (!req.currentUser.book.includes(req.params.bookId)) {
+        return res.status(401).json("You do not have permission.");
+      }
+  
+      const updatedBook = await BookModel.findOneAndUpdate(
+        { _id: req.params.bookId },
+        { ...req.body },
+        { new: true, runValidators: true }
+      );
+  
+      return res.status(200).json(updatedBook);
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json(err);
+    }
+  });
+
 
 
 module.exports = router;
