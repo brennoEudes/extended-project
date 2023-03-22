@@ -38,7 +38,7 @@ bookRouter.post(
 );
 
 // todos os usuários podem ver todos os livros.
-bookRouter.get("/book", async (req, res) => {
+bookRouter.get("/", async (req, res) => {
   try {
     const books = await BookModel.find({}, { body: 0 }); // como deixar somente title e author?
 
@@ -50,7 +50,7 @@ bookRouter.get("/book", async (req, res) => {
 });
 
 // todos os usuários veem os detalhes de todos os livros.
-bookRouter.get("/book/:id", async (req, res) => {
+bookRouter.get("/:id", async (req, res) => {
   try {
     const book = await BookModel.findOne({ _id: req.params.bookId }).populate(
       "creator"
@@ -65,7 +65,8 @@ bookRouter.get("/book/:id", async (req, res) => {
   }
 });
 
-bookRouter.put("/:bookId", isAuthenticated, attachCurrentUser, async (req, res) => {
+// usuário logado edita livro criado por ele mesmo.
+bookRouter.put("/:id", isAuthenticated, attachCurrentUser, async (req, res) => {
     try {
       if (!req.currentUser.book.includes(req.params.bookId)) {
         return res.status(401).json("You do not have permission.");
