@@ -38,7 +38,7 @@ bookRouter.post(
 // todos os usuários podem ver todos os livros.
 bookRouter.get("/", async (req, res) => {
   try {
-    const books = await BookModel.find({}, { body: 0 }); // como deixar somente title e author?
+    const books = await BookModel.find({}, {author: 0 });
 
     return res.status(200).json(books);
   } catch (err) {
@@ -54,6 +54,7 @@ bookRouter.get("/:bookId", async (req, res) => {
       "creator"
     );
 
+    console.log (book._doc.creator)
     delete book._doc.creator.passwordHash;
 
     return res.status(200).json(book);
@@ -64,48 +65,58 @@ bookRouter.get("/:bookId", async (req, res) => {
 });
 
 // usuário logado edita um livro criado por ele.
-bookRouter.put("/:bookId", isAuthenticated, attachCurrentUser, async (req, res) => {
+bookRouter.put(
+  "/:bookId",
+  isAuthenticated,
+  attachCurrentUser,
+  async (req, res) => {
     try {
-      if (!req.currentUser.book.includes(req.params.bookId)) {
+      if (!req.currentUser.books.includes(req.params.bookId)) {
         return res.status(401).json("You do not have permission.");
       }
-  
+
       const updatedBook = await BookModel.findOneAndUpdate(
         { _id: req.params.bookId },
         { ...req.body },
         { new: true, runValidators: true }
       );
-  
+
       return res.status(200).json(updatedBook);
     } catch (err) {
       console.log(err);
       return res.status(500).json(err);
     }
-  });
+  }
+);
 
-  // usuário logado deleta um livro criado por ele.
-  bookRouter.delete("/:bookId", isAuthenticated, attachCurrentUser, async (req, res) => {
+// usuário logado deleta um livro criado por ele.
+bookRouter.delete(
+  "/:bookId",
+  isAuthenticated,
+  attachCurrentUser,
+  async (req, res) => {
     try {
-      if (!req.currentUser.book.includes(req.params.bookId)) {
+      if (!req.currentUser.books.includes(req.params.bookId)) {
         return res.status(401).json("You do not have permission.");
       }
-  
+
       const deletedBook = await BookModel.deleteOne({ _id: req.params.bookId });
-  
+
       await UserModel.findOneAndUpdate(
         { _id: req.currentUser._id },
         { $pull: { posts: req.params.bookId } },
         { new: true, runValidators: true }
       );
-  
+
       return res.status(200).json(deletedBook);
     } catch (err) {
       console.log(err);
       return res.status(500).json(err);
     }
-  });
+  }
+);
 
-  /*
+/*
   bookRouter.post("/upload", isAuthenticated, uploadImg.single("picture"), (req, res) => {
     if (!req.file) {
       console.log(req.file);
@@ -115,6 +126,5 @@ bookRouter.put("/:bookId", isAuthenticated, attachCurrentUser, async (req, res) 
     return res.status(201).json({ url: req.file.path });
   });
   */
-  
 
-module.exports = router;
+module.exports = bookRouter;
