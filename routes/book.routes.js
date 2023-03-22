@@ -106,7 +106,7 @@ bookRouter.put("/:bookId", isAuthenticated, attachCurrentUser, async (req, res) 
   });
 
   /*
-  bookRouter.post("/upload", uploadImg.single("picture"), (req, res) => {
+  bookRouter.post("/upload", isAuthenticated, uploadImg.single("picture"), (req, res) => {
     if (!req.file) {
       console.log(req.file);
       return res.status(400).json({ msg: "Upload fail" });
@@ -115,5 +115,6 @@ bookRouter.put("/:bookId", isAuthenticated, attachCurrentUser, async (req, res) 
     return res.status(201).json({ url: req.file.path });
   });
   */
+  
 
 module.exports = router;
