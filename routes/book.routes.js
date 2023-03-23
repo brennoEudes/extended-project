@@ -40,7 +40,7 @@ bookRouter.post(
 // todos os usuários podem ver todos os livros.
 bookRouter.get("/", async (req, res) => {
   try {
-    const books = await BookModel.find({}, {author: 0 });
+    const books = await BookModel.find({}, { author: 0 });
 
     return res.status(200).json(books);
   } catch (err) {
@@ -56,7 +56,7 @@ bookRouter.get("/:bookId", async (req, res) => {
       "creator"
     );
 
-    console.log (book._doc.creator)
+    console.log(book._doc.creator);
     delete book._doc.creator.passwordHash;
 
     return res.status(200).json(book);
@@ -118,14 +118,18 @@ bookRouter.delete(
   }
 );
 
-  bookRouter.post("/upload-image", isAuthenticated, uploadCloud.single("picture"), (req, res) => {
+bookRouter.post(
+  "/upload-image",
+  isAuthenticated,
+  uploadCloud.single("picture"),
+  (req, res) => {
     if (!req.file) {
       console.log(req.file);
       return res.status(400).json({ msg: "Upload fail" });
     }
-  
+
     return res.status(201).json({ url: req.file.path });
-  });
-  
+  }
+);
 
 module.exports = bookRouter;

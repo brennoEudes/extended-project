@@ -6,7 +6,7 @@ const BookSchema = new Schema({
     synopsis: {type: String},
     releaseYear: {type: Number, required: true},
     genre: {type: String},
-    coverImage: {type: String, default: 'https://www.shortandtweet.com/images/short-and-tweet-default-book-cover.jpg'},
+    coverImage: {type: String, default: 'https://res.cloudinary.com/dptsbfvan/image/upload/v1679533946/pictures/file_nqffuu.png'},
     creator: {type: Types.ObjectId, ref: "User"},
 });
 
