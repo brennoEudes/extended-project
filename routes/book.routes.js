@@ -1,6 +1,8 @@
 const express = require("express");
 const router = require("express").Router();
 
+const uploadCloud = require("../config/cloudinary.config.js");
+
 const BookModel = require("../models/book.model");
 const UserModel = require("../models/User.model");
 
@@ -116,8 +118,7 @@ bookRouter.delete(
   }
 );
 
-/*
-  bookRouter.post("/upload", isAuthenticated, uploadImg.single("picture"), (req, res) => {
+  bookRouter.post("/upload-image", isAuthenticated, uploadCloud.single("picture"), (req, res) => {
     if (!req.file) {
       console.log(req.file);
       return res.status(400).json({ msg: "Upload fail" });
@@ -125,6 +126,6 @@ bookRouter.delete(
   
     return res.status(201).json({ url: req.file.path });
   });
-  */
+  
 
 module.exports = bookRouter;
