@@ -12,7 +12,7 @@ JavaScript, HTML, CSS, and integrations with database platforms had been practic
 
 ## Links
 
-To see the details of planning and the server and client wireframe: https://miro.com/app/board/uXjVMb_UTgw=/?share_link_id=53733068817
+To see the details of planning, the server's and the client's wireframe: https://miro.com/app/board/uXjVMb_UTgw=/?share_link_id=53733068817
 
 See the completed project here: https://project-extended-library.netlify.app/login
 
