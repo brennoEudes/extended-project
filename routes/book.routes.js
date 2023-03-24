@@ -66,7 +66,7 @@ bookRouter.get("/:bookId", async (req, res) => {
   }
 });
 
-// usuário logado edita um livro criado por ele.
+// usuário logado edita um livro.
 bookRouter.put(
   "/:bookId",
   isAuthenticated,
@@ -91,7 +91,7 @@ bookRouter.put(
   }
 );
 
-// usuário logado deleta um livro criado por ele.
+// usuário logado deleta um livro.
 bookRouter.delete(
   "/:bookId",
   isAuthenticated,
